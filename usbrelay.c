@@ -122,6 +122,9 @@ int main(int argc, char *argv[])
 
 
         if (debug) {
+            if ( 1 <= num_relays ) {
+                fprintf(stderr, "\n  Relay status:\n");
+            }
             for (i = 0; i < num_relays; i++) {
                 if (buf[7] & 1 << i) {
                     printf("%s_%d=1\n", buf, i + 1);
