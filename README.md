@@ -86,7 +86,7 @@ Protocol:
 The relay modules does not set the USB serial number but has a unique serial when the HID device is queried, the current state of the relays is also sent with the serial.
 The HID serial is matched and the ON/OFF command is sent to the chosen relay.
 
-Building the code:
+* Building the code:
 Assuming the hidapi and hidapi-devel packages have been installed. Note that there are two options for the hidapi library: hidapi-hidraw or hidapi-libusb. Different distributions have better results with one or the other. YMMV.
 
 ```
@@ -95,13 +95,23 @@ Assuming the hidapi and hidapi-devel packages have been installed. Note that the
 ### hidapi-libusb
 # gcc -o usbrelay usbrelay.c -lhidapi-libusb
 ```
-Usage:
+* Usage:
 The code needs to access the device. This can be achieved either by running the program with root privileges (so sudo is your friend) or by putting
 ```
 SUBSYSTEM=="usb", ATTR{idVendor}=="16c0",ATTR{idProduct}=="05df", MODE="0666"
 KERNEL=="hidraw*", ATTRS{busnum}=="1", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="05df", MODE="0666"
 ```
 to `/etc/udev/rules.d/50-dct-tech-usb-relay-2.rules`.
+
+* Building and installing the code and driver (ubuntu/debian):
+```
+sudo apt install libhidapi-dev
+make
+sudo make install
+cd drivers/linux
+./install_driver.sh
+```
+After install_driver.sh you can use usbrelay without 'sudo'
 
 Running the program will display each module that matches device 16c0:05df the debug information is sent to stderr while the state is sent to stdout for use in scripts. The only limit to the number of these relays that can be plugged in and operated at once is the number of USB ports.
 ```
