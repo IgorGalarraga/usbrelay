@@ -35,6 +35,7 @@ int main( int argc, char *argv[]) {
    int num_relays = 2;
    char *token;
    const char delimiters[] = "_=";
+   const char any_pattern[] = "*";
    int i;
    struct hid_device_info *devs, *cur_dev;
    hid_device *handle;
@@ -125,7 +126,8 @@ int main( int argc, char *argv[]) {
       /* loop through the supplied command line and try to match the serial */
       for (i=1;i<argc;i++) {
          fprintf(stderr,"Serial: %s, Relay: %d State: %x \n",relays[i].this_serial,relays[i].relay_num,relays[i].state);
-         if (!strcmp(relays[i].this_serial, (const char *) buf)) {
+         if (!strcmp(relays[i].this_serial, (const char *) buf) || /* Exact serial relay match... */
+             !strcmp(any_pattern, relays[i].this_serial)) { /* ...or any matches. */
             fprintf(stderr,"%d HID Serial: %s ", i, buf);
             fprintf(stderr,"Serial: %s, Relay: %d State: %x\n",relays[i].this_serial,relays[i].relay_num,relays[i].state);
             operate_relay(handle,relays[i].relay_num,relays[i].state);
