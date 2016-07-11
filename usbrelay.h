@@ -28,5 +28,4 @@ struct relay {
     char this_serial[10];
     unsigned char relay_num;
     unsigned char state;
-    int found;
 };
