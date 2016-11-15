@@ -109,7 +109,14 @@ int main(int argc, char *argv[])
         }
 
         // The product string is USBRelayx where x is number of relays read to the \0 in case there are more than 9
+        if ((cur_dev->product_string) != 0){ //Segmentation fault safe on atoi:
         num_relays = atoi((const char *) &cur_dev->product_string[8]);
+        }
+        else {
+            // when compiled with libusb product_string is null.
+            //NOTE: This is forced relay number for my board!
+            num_relays = 2;
+        }
         if (debug)
             fprintf(stderr, "  Number of Relays = %d\n", num_relays);
 
