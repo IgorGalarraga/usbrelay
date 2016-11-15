@@ -1,11 +1,10 @@
-#Uncomment for crosscompilation on debian environment with tools instaled:
-#CROSS_PREFIX = arm-linux-gnueabihf-
+HIDAPI ?= hidraw
+CC ?= gcc
+STRIP ?= strip
+CFLAGS ?= -O2 -Wall
 
-CC = $(CROSS_PREFIX)gcc
-CFLAGS = -O2 -Wall
-HIDAPI = hidraw
-LDFLAGS = -lhidapi-$(HIDAPI)
-STRIP = $(CROSS_PREFIX)strip
+CFLAGS += `pkg-config --cflags hidapi-$(HIDAPI)`
+LDFLAGS += `pkg-config --libs hidapi-$(HIDAPI)`
 
 OBJECTS = usbrelay.o
 
